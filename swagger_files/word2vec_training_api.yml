@@ -1,0 +1,44 @@
+API trains Word2Vec model on the given data in json and finds the similarity with the terms in the given dictionary json.
+---
+tags:
+- Train Word2Vec API
+parameters:
+  
+- name: TrainingDataPath
+  key: TrainingDataPath
+  in: formData
+  type: string
+  required: true
+  description: Training json path
+- name: DictionaryDataPath
+  key: DictionaryDataPath
+  in: formData
+  type: string
+  required: true
+  description: Dictionary json path
+- name: ModelId
+  key: ModelId
+  in: formData
+  type: string
+  required: true
+  description: Unique Model ID
+- name: Language
+  key: Language
+  in: formData
+  type: string
+  required: true
+  description: Language of data
+
+responses:
+  500:
+    description: Error!
+  200:
+    description: Displays relevant message with status.
+    schema:
+      id: train_result
+      properties:
+        Result:
+          type: object
+          properties:
+            Status:
+              type: string

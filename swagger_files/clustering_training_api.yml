@@ -1,0 +1,64 @@
+API clusters input sentences into different clusters. These clusters can be converted into intents.
+---
+tags:
+- Clustering Train API
+parameters:
+  
+- name: TrainingDataPath
+  key: TrainingDataPath
+  in: formData
+  type: string
+  required: true
+  description: Training json path
+- name: DictionaryDataPath
+  key: DictionaryDataPath
+  in: formData
+  type: string
+  required: true
+  description: Dictionary json path
+- name: NumberOfClusters
+  key: NumberOfClusters
+  in: formData
+  type: string
+  required: true
+  description: Number of clusters
+- name: Language
+  key: Language
+  in: formData
+  type: string
+  required: true
+  description: Language of data
+  default: en
+- name: ModelId
+  key: ModelId
+  in: formData
+  type: string
+  required: true
+  description: Unique Model ID
+- name: Algorithm
+  key: Algorithm
+  in: formData
+  type: string
+  required: true
+  description: LDA / KMeans
+  default: LDA
+- name: EmbeddingModel
+  key: EmbeddingModel
+  in: formData
+  type: string
+  required: true
+  description: Embeddings to be used (tfidf / word2vec)
+  default: tfidf
+responses:
+  500:
+    description: Error!
+  200:
+    description: Displays relevant message with status.
+    schema:
+      id: train_result
+      properties:
+        Result:
+          type: object
+          properties:
+            Status:
+              type: string

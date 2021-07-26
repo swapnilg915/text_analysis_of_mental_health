@@ -1,0 +1,30 @@
+API clusters input sentences into different clusters. These clusters can be converted into intents.
+---
+tags:
+- Clustering Prediction API
+parameters:
+- name: ModelId
+  key: ModelId
+  in: formData
+  type: string
+  required: true
+  description: Unique Model ID
+- name: ClusterName
+  key: ClusterName
+  in: formData
+  type: string
+  required: true
+  description: Name of the cluster
+responses:
+  500:
+    description: Error!
+  200:
+    description: Displays relevant message with status.
+    schema:
+      id: train_result
+      properties:
+        Result:
+          type: object
+          properties:
+            Status:
+              type: string

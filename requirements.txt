@@ -1,0 +1,17 @@
+flask
+flasgger
+pandas
+numpy
+requests
+spacy==2.2
+xlrd
+gunicorn
+scikit-learn
+wordcloud
+matplotlib
+gensim
+pyemd
+spacy-wordnet
+regex
+flashtext
+

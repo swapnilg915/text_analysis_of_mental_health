@@ -1,0 +1,22 @@
+1. after clustering, group the sentences in json --- for all clustering results - labelled data in json
+--- done
+
+2. Try LDA (refer notebook) with n grams (till 5) + tfidf. 
+
+3. Create a script for = sentence => topics_list
+--- done
+
+4. given the topic number, display all the sentences related to that topic (prediction api through swagger)
+
+
+
+import pdb;pdb.set_trace()
+		
+		for i, row in enumerate(ldamodel[corpus]):
+			row = sorted(row[0], key=lambda x: (x[1]), reverse=True)
+			for j, (topic_num, prop_topic) in enumerate(row):
+				if j == 0:  # => dominant topic
+					wp = ldamodel.show_topic(topic_num)
+					topic_keywords = ", ".join([word for word, prop in wp])
+					[int(topic_num), round(prop_topic,4), topic_keywords]
+
