@@ -97,10 +97,11 @@ class TrainWord2Vec(object):
 		return result_dict
 
 
-	def save_labelled_data(self, result_dict):
+	def save_labelled_data(self, result_dict, model_dir):
 		""" save results in cvs """
 		df = pd.DataFrame.from_dict(result_dict)
 		df.to_csv(os.path.join(model_dir, "labelled_data_w2v.csv"))
+		print("\n successfully saved labelled data in csv!")
 
 
 	def main(self, cleaned_sentences, words_docs, dictionary_data, model_id, model_dir):
@@ -118,7 +119,7 @@ class TrainWord2Vec(object):
 		result_dict = self.find_similarity(cleaned_sentences, words_docs, dictionary_data, model_dir)
 
 		""" step 4: save labelled data """
-		result_dict = self.save_labelled_data(result_dict)
+		result_dict = self.save_labelled_data(result_dict, model_dir)
 		print("\n total_time : ", time.time() - st)
 
 if __name__ == '__main__':
