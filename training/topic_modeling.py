@@ -41,6 +41,7 @@ class TopicModeling():
 												   passes=50,
 												   alpha='auto',
 												   per_word_topics=True)
+
 		topics = lda_model.print_topics()
 		print("\n all topics: \n")
 		new_topics = [(tpl[0], self.process_topics(tpl[1])) for tpl in topics]
@@ -50,9 +51,7 @@ class TopicModeling():
 
 
 	def get_topics_sentences(self, ldamodel, corpus, texts, model_dir):
-		# Init output
 		sent_topics_df = pd.DataFrame()
-
 		# Get main topic in each document
 		for i, row in enumerate(ldamodel[corpus]):
 			row = sorted(row[0], key=lambda x: (x[1]), reverse=True)
@@ -64,18 +63,23 @@ class TopicModeling():
 					sent_topics_df = sent_topics_df.append(pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True)
 				else:
 					break
+		return sent_topics_df
+
+
+	def save_lda_results(self, sent_topics_df, texts, model_dir):
 		sent_topics_df.columns = ['Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
 		contents = pd.Series(texts)
 		df_topic_sents_keywords = pd.concat([sent_topics_df, contents], axis=1)
 		df_dominant_topic = df_topic_sents_keywords.reset_index()
-		df_dominant_topic.columns = ['Document_No', 'Topic', 'Topic_Perc_Contrib', 'Keywords', 'Text']
+		df_dominant_topic.columns = ['Document_No', 'Topic', 'Topic_Percentage_Contribution', 'Keywords', 'Text']
 		df_dominant_topic.to_csv(os.path.join(model_dir, "cluster_sentence_topic_mapping.csv"))
 		return df_dominant_topic
 		
 
 	def main(self, words_docs, cleaned_sentences, lang, model_dir, number_of_clusters):
 		lda_model, corpus, id2word, new_topics = self.train(cleaned_sentences, words_docs, number_of_clusters)
-		df_dominant_topic = self.get_topics_sentences(lda_model, corpus, cleaned_sentences, model_dir)
+		sent_topics_df = self.get_topics_sentences(lda_model, corpus, cleaned_sentences, model_dir)
+		df_dominant_topic = self.save_lda_results(sent_topics_df, cleaned_sentences, model_dir)
 		return df_dominant_topic
 
 

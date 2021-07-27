@@ -11,11 +11,14 @@ find_synonyms_obj = SynonymsGenerator()
 from helper.cleaning_pipeline import Preprocessing
 cleaning_obj = Preprocessing()
 
+import configuration_file as config
+
+
 class LabelData:
 
 
 	def __init__(self):
-		self.synonyms_flag = True
+		pass
 
 
 	def check_in_dictionary(self, total_topic_keywords, dictionary_data):
@@ -39,7 +42,7 @@ class LabelData:
 		for idx, row in unique_df.iterrows():
 			keywords = [keyword.strip() for keyword in row["Keywords"].split(",")]
 			total_topic_keywords = []
-			if self.synonyms_flag:
+			if config.data_labelling_synonyms:
 				for word in keywords:
 					synonyms_dict = find_synonyms_obj.find_word_synonyms(word)
 					words_list = [ [word] + syns_list for word, syns_list in synonyms_dict.items()]
