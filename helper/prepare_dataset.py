@@ -19,7 +19,7 @@ source_path = os.path.join(config.BASE_PATH, "datasets","OCD2.csv")
 destination_path = os.path.join(config.BASE_PATH, "datasets", "OCD2.json")
 
 df = pd.read_csv(source_path)
-text_key = "experience"
+text_key = "Description"
 sentences_lst= list(df[text_key])
 required_json = {"TrainingData":sentences_lst}
 with open(destination_path, "w+") as fs:

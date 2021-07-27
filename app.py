@@ -125,6 +125,7 @@ def w2v_training():
 		res_json["message"] = "Error occurred! Training failed! Please check inputs!!!"
 	return jsonify(res_json)
 
+
 """ Prediction """
 @app.route("/prediction", methods=['POST'])
 @swag_from("swagger_files/clustering_prediction_api.yml")

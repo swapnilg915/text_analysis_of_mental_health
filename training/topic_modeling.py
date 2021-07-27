@@ -32,12 +32,22 @@ class TopicModeling():
 		training_corpus = [id2word.doc2bow(text) for text in multigrams_tokens]
 
 		# Have the corpus(term-doc matrix) and id2word (dictionary), need to specify no of topics and iteration
+		# lda_model = gensim.models.ldamodel.LdaModel(corpus=training_corpus,  # BoW
+		# 										   id2word=id2word, # vocanulary of the corpus
+		# 										   num_topics=number_of_clusters, 
+		# 										   random_state=42, 
+		# 										   update_every=1, 
+		# 										   chunksize=100, 
+		# 										   passes=50,
+		# 										   alpha='auto',
+		# 										   per_word_topics=True)
+
 		lda_model = gensim.models.ldamodel.LdaModel(corpus=training_corpus,  # BoW
 												   id2word=id2word, # vocanulary of the corpus
 												   num_topics=number_of_clusters, 
-												   random_state=100, 
-												   update_every=1, 
-												   chunksize=100, 
+												   random_state=42, 
+												   update_every=5,
+												   eval_every=5, 
 												   passes=50,
 												   alpha='auto',
 												   per_word_topics=True)
