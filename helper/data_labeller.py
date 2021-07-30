@@ -23,19 +23,30 @@ class LabelData:
 
 	def check_in_dictionary(self, keywords, total_lda_keywords, dictionary_data):
 		label_dict = defaultdict()
+		matched_keywords = []
+		un_matched_keywords = []
 		for assessment_topic, values_list in dictionary_data.items():
 			values_list.append(assessment_topic)
 			# values_list = [cleaning_obj.get_lemma(word, "en") for word in values_list]
 			total_assessment_keywords = list(set(values_list))
 			intersect = list(set(total_lda_keywords) & set(total_assessment_keywords))
+			# print("\n assessment_topic : ", assessment_topic)
+			# print("\n intersect : ", intersect)
+			match_key = assessment_topic + "_matched_words"
+			un_match_key = assessment_topic + "_matched_words"
 			if intersect:
 				label_dict[assessment_topic] = float(len(intersect)/len(total_assessment_keywords)) * 100
-				label_dict["matched_words"] = ", ".join(intersect)
-				label_dict["un-matched_words"] = ", ".join(list(set(total_lda_keywords) - set(intersect)))
+				label_dict[match_key] = ", ".join(intersect)
+				label_dict[un_match_key] = ", ".join(list(set(total_lda_keywords) - set(intersect)))
+				# label_dict["matched_words"] = ", ".join(intersect)
+				# label_dict["un-matched_words"] = ", ".join(list(set(total_lda_keywords) - set(intersect)))
 			else:
 				label_dict[assessment_topic] = 0
-				label_dict["matched_words"] = ""
-				label_dict["un-matched_words"] = ", ".join(keywords)
+				label_dict[match_key] = ""
+				label_dict[un_match_key] = ", ".join(keywords)
+				# label_dict["matched_words"] = ""
+				# label_dict["un-matched_words"] = ", ".join(keywords)
+
 		return dict(label_dict)
 
 
@@ -45,6 +56,7 @@ class LabelData:
 		unique_df = df_dominant_topic.drop_duplicates(subset=["Topic"])
 		match_dict = defaultdict()
 		for idx, row in unique_df.iterrows():
+			print("\n cluster number : ", row["Topic"])
 			keywords = [keyword.strip() for keyword in row["Keywords"].split(",")]
 			total_lda_keywords = []
 			if config.data_labelling_synonyms:
@@ -56,8 +68,10 @@ class LabelData:
 			else:
 				total_lda_keywords = keywords
 
+			# import pdb;pdb.set_trace()
 			# total_lda_keywords = [cleaning_obj.get_lemma(word, "en") for word in total_lda_keywords]
 			label_dict = self.check_in_dictionary(keywords,  total_lda_keywords, dictionary_data)
+			print("\n label_dict : ", label_dict)
 			match_dict[str(int(row["Topic"]))] = label_dict
 		match_dict = dict(match_dict)
 		return match_dict
