@@ -33,9 +33,9 @@ class LabelData:
 			# print("\n assessment_topic : ", assessment_topic)
 			# print("\n intersect : ", intersect)
 			match_key = assessment_topic + "_matched_words"
-			un_match_key = assessment_topic + "_matched_words"
+			un_match_key = assessment_topic + "_unmatched_words"
 			if intersect:
-				label_dict[assessment_topic] = float(len(intersect)/len(total_assessment_keywords)) * 100
+				label_dict[assessment_topic] = float(len(intersect)/10) * 100
 				label_dict[match_key] = ", ".join(intersect)
 				label_dict[un_match_key] = ", ".join(list(set(total_lda_keywords) - set(intersect)))
 				# label_dict["matched_words"] = ", ".join(intersect)
